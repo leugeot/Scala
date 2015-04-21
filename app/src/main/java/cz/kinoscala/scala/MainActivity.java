@@ -1,17 +1,36 @@
 package cz.kinoscala.scala;
 
+import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    private ListView listView;
+    private ProgressDialog progressDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        listView = (ListView) findViewById(R.id.movie_list);
+        new MoviesLoader().execute();
     }
 
 
@@ -35,5 +54,43 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class MoviesLoader extends AsyncTask<Void, Void, Void>{
+        List<Movie> movies;
+
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+
+            progressDialog = new ProgressDialog(MainActivity.this);
+            progressDialog.setMessage("Downloading movies");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+            }
+
+            ListAdapter adapter = new MovieAdapter(MainActivity.this, 0, movies);
+
+            listView.setAdapter(adapter);
+
+            int a;
+        }
+        
+        @Override
+        protected Void doInBackground(Void... params) {
+            JSONLoader jsonLoader = new JSONLoader();
+
+            JSONObject jsonObject = jsonLoader.getJsonFromUrl("http://www.kinoscala.cz/1.0/export/showtimes");
+            movies = MovieParser.parse(jsonObject);
+
+            return null;
+        }
     }
 }
