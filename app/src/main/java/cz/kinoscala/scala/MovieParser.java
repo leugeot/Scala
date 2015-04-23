@@ -19,6 +19,10 @@ import java.util.Locale;
  */
 public final class MovieParser {
     public static List<Movie> parse(JSONObject jsonObject) {
+        if (jsonObject == null) {
+            return new LinkedList<>();
+        }
+
         List<Movie> movies = new LinkedList<>();
 
         try {

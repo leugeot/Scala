@@ -3,6 +3,8 @@ package cz.kinoscala.scala;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -80,7 +82,6 @@ public class MainActivity extends ActionBarActivity {
 
             listView.setAdapter(adapter);
 
-            int a;
         }
         
         @Override
