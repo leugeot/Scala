@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -27,13 +29,11 @@ import cz.kinoscala.scala.R;
  * Activities that contain this fragment must implement the
  * {@link UpcomingMoviesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link UpcomingMoviesFragment#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class UpcomingMoviesFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
-    ListView movieListView;
+    private ListView movieListView;
     ProgressDialog progressDialog;
 
     @Override
@@ -47,6 +47,24 @@ public class UpcomingMoviesFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_upcoming_movies, container, false);
         movieListView = (ListView) v.findViewById(R.id.movie_list);
+
+        movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Movie movie = (Movie) movieListView.getItemAtPosition(position);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+
+                String fragmentTag = getString(R.string.movie_detail);
+                Fragment selectedFragment = fragmentManager.findFragmentByTag(fragmentTag);
+
+                if (selectedFragment == null) {
+                    selectedFragment = MovieDetailFragment.newInstance(movie);
+                    fragmentManager.beginTransaction().addToBackStack(fragmentTag)
+                            .replace(R.id.container, selectedFragment, fragmentTag)
+                            .commit();
+                }
+            }
+        });
 
         return v;
     }
@@ -105,7 +123,7 @@ public class UpcomingMoviesFragment extends Fragment {
             JSONLoader jsonLoader = new JSONLoader();
 
             JSONObject jsonObject = jsonLoader.getJsonFromUrl("http://www.kinoscala.cz/1.0/export/showtimes");
-            return MovieParser.parse(jsonObject);
+            return MovieParser.parseMoviesList(jsonObject);
         }
 
         @Override

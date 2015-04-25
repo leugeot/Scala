@@ -18,7 +18,7 @@ import java.util.Locale;
  * Created by petr on 20.4.2015.
  */
 public final class MovieParser {
-    public static List<Movie> parse(JSONObject jsonObject) {
+    public static List<Movie> parseMoviesList(JSONObject jsonObject) {
         if (jsonObject == null) {
             return new LinkedList<>();
         }
@@ -49,7 +49,53 @@ public final class MovieParser {
             Log.e("MovieParser", "Incorrect JSON file: " + e.toString());
         }
 
-
         return movies;
+    }
+
+    public static Movie parseMovieDetail(JSONObject movieToParse) {
+        if (movieToParse == null) {
+            return null;
+        }
+
+        Movie movie = new Movie();
+
+        try {
+            movieToParse = movieToParse.getJSONObject("film");
+
+            movie.setName(movieToParse.getString("name"));
+            String dateString = movieToParse.getString("date");
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ", Locale.US);
+            Date date = null;
+            try {
+                date = format.parse(dateString);
+            } catch (ParseException e) {
+                Log.e("Movie parser", e.toString());
+                return null;
+            }
+            movie.setDate(date);
+            movie.setPrice(movieToParse.getInt("price"));
+            movie.setOriginalName(movieToParse.getString("original"));
+            movie.setYear(movieToParse.getInt("year"));
+            movie.setRuntime(movieToParse.getInt("runtime"));
+            movie.setCountries(movieToParse.getString("countries"));
+            movie.setLanguages(movieToParse.getString("languages"));
+            movie.setPlot(movieToParse.getString("plot"));
+            movie.setCurrency(movieToParse.getString("currency"));
+            movie.setCsfdRating(movieToParse.getInt("csfdRating"));
+            movie.setCsfdID(movieToParse.getString("csfdId"));
+            movie.setImdbRating(movieToParse.getDouble("imdbRating"));
+            movie.setImdbID(movieToParse.getString("imdbId"));
+            movie.setImageUrl(movieToParse.getString("image"));
+            movie.setYoutubeUrl(movieToParse.getString("youtube"));
+            movie.setWebsite(movieToParse.getString("website"));
+            movie.setUrl(movieToParse.getString("url"));
+            movie.setReservationUrl(movieToParse.getString("reservationUrl"));
+
+
+        } catch (JSONException e) {
+            Log.e("MovieParser", "Incorrect JSON file: " + e.toString());
+        }
+
+        return movie;
     }
 }
