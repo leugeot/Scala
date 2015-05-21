@@ -31,7 +31,7 @@ public class MoviesDBTable {
 
     private static final String CREATE_TABLE_STRING =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + "(" +
-                    ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    ID + " INTEGER PRIMARY KEY NOT NULL, " +
                     NAME + " TEXT NOT NULL, " +
                     DATE + " DATETIME NOT NULL, " +
                     PRICE + " INT NOT NULL)";
@@ -60,6 +60,7 @@ public class MoviesDBTable {
 
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(ID, movie.getId());
         contentValues.put(NAME, movie.getName());
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -67,6 +68,7 @@ public class MoviesDBTable {
         contentValues.put(DATE, dateFormat.format(movie.getDate()));
         contentValues.put(PRICE, movie.getPrice());
 
+        // ADD CHECK IF THE ID ISNT ALREADY THERE.. OTHERWISE CRASHY CRASHY HAPPENS
         return database.insert(TABLE_NAME, null, contentValues);
     }
 

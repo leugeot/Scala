@@ -1,19 +1,33 @@
 package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -37,6 +51,7 @@ public class MovieDetailFragment extends Fragment {
     private Movie movie;
     private ProgressDialog progressDialog;
     private TextView movieDetailName;
+    private ImageView movieImage;
 
     private OnFragmentInteractionListener mListener;
 
@@ -83,9 +98,13 @@ public class MovieDetailFragment extends Fragment {
             protected Void doInBackground(Void... params) {
                 JSONLoader jsonLoader = new JSONLoader();
 
-                JSONObject jsonObject = jsonLoader.getJsonFromUrl(
-                        "http://www.kinoscala.cz/1.0/export/description/" + movie.getId());
+                // JUST TEMPORARY FOR TEST
+                long movieID = movie.getId();
+
+                String url = "http://www.kinoscala.cz/1.0/export/description/" + movie.getId();
+                JSONObject jsonObject = jsonLoader.getJsonFromUrl(url);
                 movie = MovieParser.parseMovieDetail(jsonObject);
+                movie.setId(movieID);
 
                 return null;
             }
@@ -99,16 +118,70 @@ public class MovieDetailFragment extends Fragment {
 
                 updateMovieDetail();
             }
+
         }.execute();
     }
 
     private void updateMovieDetail(){
         if (movie != null) {
-            movieDetailName.setText(movie.getName());
+//            movieDetailName.setText(movie.getName());
+
+            File imgFile = new File(Environment.getExternalStorageDirectory() +
+                    "/KinoScalaImages/" + movie.getId() + ".jpg");
+            if (imgFile.exists()) {
+                Picasso.with(getActivity().getApplicationContext()).load(imgFile).into(movieImage);
+            } else {
+                if (movie.getImageUrl() != null || !"".equals(movie.getImageUrl())) {
+                    Picasso.with(getActivity().getApplicationContext()).load(movie.getImageUrl()).into(movieImage, new Callback.EmptyCallback());
+                    Picasso.with(getActivity().getApplicationContext()).load(movie.getImageUrl())
+                            .into(imageTarget);
+                } else {
+                    movieImage.setImageBitmap(null);
+                }
+            }
+
         } else {
             Log.e("Movie detail", "Movie is null");
         }
     }
+
+    private Target imageTarget = new Target() {
+        @Override
+        public void onBitmapLoaded(final Bitmap bitmap, Picasso.LoadedFrom from) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/KinoScalaImages");
+                    if (!imageDirectory.exists()){
+                        imageDirectory.mkdir();
+                    }
+
+                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/KinoScalaImages/" + movie.getId() +".jpg");
+                    try
+                    {
+                        file.createNewFile();
+                        FileOutputStream ostream = new FileOutputStream(file);
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
+                        ostream.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+
+                }
+            }).start();
+        }
+        @Override
+        public void onBitmapFailed(Drawable errorDrawable) {
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+            if (placeHolderDrawable != null) {
+            }
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -116,7 +189,8 @@ public class MovieDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
+//        movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
+        movieImage = (ImageView) v.findViewById(R.id.movie_detail_image);
         downloadAndParseMovieDetail();
 
         return v;
