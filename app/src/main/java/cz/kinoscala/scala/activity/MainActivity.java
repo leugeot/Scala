@@ -15,7 +15,11 @@ import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import cz.kinoscala.scala.R;
 import cz.kinoscala.scala.fragment.MovieDetailFragment;
@@ -56,7 +60,7 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        notificationTest();
+//        notificationTest();
     }
 
     @Override

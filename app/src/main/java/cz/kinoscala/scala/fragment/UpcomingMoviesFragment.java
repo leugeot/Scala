@@ -2,11 +2,13 @@ package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +18,20 @@ import android.widget.ListView;
 
 import org.json.JSONObject;
 
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import cz.kinoscala.scala.JSONLoader;
 import cz.kinoscala.scala.Movie;
 import cz.kinoscala.scala.MovieAdapter;
 import cz.kinoscala.scala.MovieParser;
 import cz.kinoscala.scala.R;
+import cz.kinoscala.scala.database.DBManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +44,37 @@ public class UpcomingMoviesFragment extends Fragment {
 
     private ListView movieListView;
     ProgressDialog progressDialog;
+
+    // Scala state settings which will be persisted.
+    private int moviesLoadDays = 7;
+    private Date lastUpdateDate = null;
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+//        moviesLoadDays = savedInstanceState.getInt("moviesLoadDays");
+        moviesLoadDays = 11;
+
+        SharedPreferences settigs = getActivity().getApplicationContext().getSharedPreferences("app_settings", 0);
+        String lastUpdateDateString = settigs.getString("lastUpdateDate", null);
+
+        if (lastUpdateDateString != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            try {
+                lastUpdateDate = dateFormat.parse(lastUpdateDateString);
+            } catch (ParseException e) {
+                Log.e("mainActivity", "Error when parsing old last update date.");
+                lastUpdateDate = null;
+            }
+        }
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,10 +109,34 @@ public class UpcomingMoviesFragment extends Fragment {
         return v;
     }
 
+    private long minuteDifference(Date from, Date to) {
+        long difference = to.getTime() - from.getTime();
+        return TimeUnit.MINUTES.convert(difference, TimeUnit.MILLISECONDS);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        new MoviesDownloader().execute();
+
+        Date currentDate = new Date();
+        if (lastUpdateDate == null || minuteDifference(lastUpdateDate, currentDate) > 15) {
+            new MoviesDownloader().execute();
+            Log.i("upcomingmovies", "empty db");
+        } else {
+            DBManager db = new DBManager(getActivity().getApplicationContext());
+            try {
+                db.open();
+
+                List<Movie> movies = db.getMoviesSince(new Date());
+                db.close();
+
+                updateMovieListView(movies);
+                Log.i("upcomingmovies", "set from db");
+            } catch (SQLException e) {
+                Log.e("upcomingmovies", "ERROR WHILE LOADING MOVIES FROM DB");
+                // SHOW SOME KIND OF ERROR
+            }
+        }
     }
 
     @Override
@@ -133,11 +197,33 @@ public class UpcomingMoviesFragment extends Fragment {
                 progressDialog.dismiss();
             }
 
+            DBManager db = new DBManager(getActivity().getApplicationContext());
+            try {
+                db.open();
+                for (Movie movie : movies) {
+                    db.insertMovie(movie);
+                }
+                db.close();
+                lastUpdateDate = new Date();
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat(
+                        "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+
+                SharedPreferences settigs = getActivity().getApplicationContext().getSharedPreferences("app_settings", 0);
+                SharedPreferences.Editor editor = settigs.edit();
+                editor.putString("lastUpdateDate", dateFormat.format(lastUpdateDate));
+
+                editor.apply();
+
+            } catch (SQLException e) {
+                Log.e("upcomingmovies", "ERROR WHILE SAVING MOVIES TO DB");
+            }
+
             updateMovieListView(movies);
         }
     }
 
-    private void updateMovieListView(List<Movie> movies){
+    private void updateMovieListView(List<Movie> movies) {
         if (movies != null) {
             ListAdapter adapter = new MovieAdapter(getActivity(), 0, movies);
             movieListView.setAdapter(adapter);
