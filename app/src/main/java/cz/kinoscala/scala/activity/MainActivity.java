@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import cz.kinoscala.scala.R;
+import cz.kinoscala.scala.fragment.ContactsFragment;
 import cz.kinoscala.scala.fragment.MovieDetailFragment;
 import cz.kinoscala.scala.fragment.NavigationDrawerFragment;
 import cz.kinoscala.scala.fragment.NotificationListFragment;
@@ -32,7 +33,8 @@ public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
         UpcomingMoviesFragment.OnFragmentInteractionListener,
         NotificationListFragment.OnFragmentInteractionListener,
-        MovieDetailFragment.OnFragmentInteractionListener{
+        MovieDetailFragment.OnFragmentInteractionListener,
+        ContactsFragment.OnFragmentInteractionListener{
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -93,6 +95,12 @@ public class MainActivity extends ActionBarActivity
                 break;
 
             case 2:
+                tag = getString(R.string.contact_title_section);
+                selectedFragment = fragmentManager.findFragmentByTag(tag);
+
+                if (selectedFragment == null) {
+                    selectedFragment = new ContactsFragment();
+                }
                 break;
         }
 
