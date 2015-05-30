@@ -27,11 +27,13 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        MoviesDBTable.create(db);
+        MoviesTable.create(db);
+        NotificationsTable.create(db);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        MoviesDBTable.upgrade(db);
+        MoviesTable.upgrade(db);
+        NotificationsTable.upgrade(db);
     }
 }

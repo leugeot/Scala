@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import cz.kinoscala.scala.Movie;
+import cz.kinoscala.scala.MovieNotification;
 
 /**
  * Created by petr on 10.5.2015.
@@ -33,10 +34,27 @@ public class DBManager {
     }
 
     public void insertMovie(Movie movie) {
-        MoviesDBTable.insert(writableDatabase, movie);
+        if (!MoviesTable.containsMovieId(readableDatabase ,movie.getId())) {
+            MoviesTable.insert(writableDatabase, movie);
+
+//            JUST FOR TEST -- REMOVE LATER
+            NotificationsTable.insert(writableDatabase, movie.getId());
+        }
     }
 
     public List<Movie> getMoviesSince(Date date) {
-        return MoviesDBTable.getMoviesSince(readableDatabase, date);
+        return MoviesTable.getMoviesSince(readableDatabase, date);
+    }
+
+    public boolean containsMovieId(int id){
+        return MoviesTable.containsMovieId(readableDatabase, id);
+    }
+
+    public List<MovieNotification> getNotifications(){
+        return NotificationsTable.getNotifications(readableDatabase);
+    }
+
+    public void insertNotification(MovieNotification notification, long movieId) {
+        NotificationsTable.insert(writableDatabase, movieId);
     }
 }

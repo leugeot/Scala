@@ -1,14 +1,28 @@
 package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import cz.kinoscala.scala.MovieNotification;
+import cz.kinoscala.scala.NotificationAdapter;
 import cz.kinoscala.scala.R;
+import cz.kinoscala.scala.database.DBManager;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +33,8 @@ import cz.kinoscala.scala.R;
 public class NotificationListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
+    private ListView notificationListView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,13 +44,42 @@ public class NotificationListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notification_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_notification_list, container, false);
+        notificationListView = (ListView) v.findViewById(R.id.notification_list);
+
+        return v;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    private void updateNotificationsListView(List<MovieNotification> notifications) {
+        if (notifications != null) {
+            ListAdapter adapter = new NotificationAdapter(getActivity(), 0, notifications);
+            notificationListView.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        DBManager db = new DBManager(getActivity().getApplicationContext());
+        try {
+            db.open();
+
+            List<MovieNotification> notifications = db.getNotifications();
+            db.close();
+
+            updateNotificationsListView(notifications);
+            Log.i("updatingnotifications", "set from db");
+        } catch (SQLException e) {
+            Log.e("updatingnotifications", "ERROR WHILE LOADING NOTIFICATIONS FROM DB");
+            // SHOW SOME KIND OF ERROR
         }
     }
 
@@ -69,5 +114,4 @@ public class NotificationListFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
-
 }

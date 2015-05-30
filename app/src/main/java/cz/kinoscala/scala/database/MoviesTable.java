@@ -17,7 +17,7 @@ import cz.kinoscala.scala.Movie;
 /**
  * Created by petr on 9.5.2015.
  */
-public class MoviesDBTable {
+public class MoviesTable {
     private static final String TABLE_NAME = "movies";
 
     private static final String ID = "id";
@@ -85,6 +85,20 @@ public class MoviesDBTable {
         return getMovies(database, selection, selectionArgs);
     }
 
+    public static Movie getMovie(SQLiteDatabase database, int id) {
+        String selection = ID + " = ?";
+
+        String[] selectionArgs = {
+                Integer.toString(id)
+        };
+
+        List<Movie> movies = getMovies(database, selection, selectionArgs);
+        if (movies.size() == 0) {
+            return null;
+        }
+        return movies.get(0);
+    }
+
     private static List<Movie> getMovies(SQLiteDatabase database, String selection,
                                          String[] selectionArgs) {
 
@@ -115,12 +129,23 @@ public class MoviesDBTable {
                 Movie movie = new Movie(id, name, date, price);
                 movies.add(movie);
             } catch (ParseException e) {
-                Log.e("MoviesDBTable", "Incorrect date format. Ignoring line.");
+                Log.e("MoviesTable", "Incorrect date format. Ignoring line.");
             }
 
             notExit = c.moveToNext();
         }
         c.close();
         return movies;
+    }
+
+    public static boolean containsMovieId(SQLiteDatabase database, long id){
+        String[] selectionArgs = {
+                Long.toString(id)
+        };
+        Cursor cursor = database.rawQuery("SELECT id from " + TABLE_NAME + " where id = ?", selectionArgs);
+        boolean hasId = cursor.moveToNext();
+
+        cursor.close();
+        return hasId;
     }
 }
