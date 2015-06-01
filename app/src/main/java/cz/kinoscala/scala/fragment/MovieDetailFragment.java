@@ -51,6 +51,12 @@ public class MovieDetailFragment extends Fragment {
     private Movie movie;
     private ProgressDialog progressDialog;
     private TextView movieDetailName;
+    private TextView movieDetailYear;
+    private TextView movieDetailPlot;
+    private TextView movieDetailPrice;
+    private TextView movieDetailCurrency;
+    private TextView movieDetailCsfd;
+    private TextView movieDetailImdb;
     private ImageView movieImage;
 
     private OnFragmentInteractionListener mListener;
@@ -124,7 +130,12 @@ public class MovieDetailFragment extends Fragment {
 
     private void updateMovieDetail(){
         if (movie != null) {
-//            movieDetailName.setText(movie.getName());
+            movieDetailName.setText(movie.getName());
+            //movieDetailYear.setText(movie.getYear());
+            movieDetailPlot.setText(movie.getPlot());
+            movieDetailPrice.setText(Integer.toString(movie.getPrice()) + " Kč");
+            movieDetailCsfd.setText("ČSFD rating: " + Integer.toString(movie.getCsfdRating()) + "%");
+            movieDetailImdb.setText("IMDB rating: " + Double.toString(movie.getImdbRating()) + "/10");
 
             File imgFile = new File(Environment.getExternalStorageDirectory() +
                     "/KinoScalaImages/" + movie.getId() + ".jpg");
@@ -189,8 +200,13 @@ public class MovieDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-//        movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
+        movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
+        movieDetailYear = (TextView) v.findViewById(R.id.movie_detail_year);
         movieImage = (ImageView) v.findViewById(R.id.movie_detail_image);
+        movieDetailPlot = (TextView) v.findViewById(R.id.movie_detail_plot);
+        movieDetailPrice = (TextView) v.findViewById(R.id.movie_detail_price);
+        movieDetailCsfd = (TextView) v.findViewById(R.id.movie_detail_csfd_rating);
+        movieDetailImdb = (TextView) v.findViewById(R.id.movie_detail_imdb_rating);
         downloadAndParseMovieDetail();
 
         return v;

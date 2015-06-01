@@ -46,7 +46,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         Movie movie = getItem(position);
         holder.name.setText(movie.getName());
         holder.date.setText(movie.getDate().toString());
-        holder.price.setText(Integer.toString(movie.getPrice()));
+        holder.price.setText("Price: " + Integer.toString(movie.getPrice()) + " Kč");
 
         return convertView;
     }
