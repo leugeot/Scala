@@ -18,15 +18,18 @@
     <string name="address1">Kino Scala</string>
     <string name="address2">Moravské náměstí</string>
     <string name="address3">602 00 Brno</string>
+
     <string name="ticket_reservation">Ticket reservation</string>
     <string name="ticket_reservation_time">every working day 10am - 5pm</string>
-    <string name="ticket_reservation_number">608 33 00 88</string>
+    <string name="ticket_reservation_phone">608 33 00 88</string>
+
     <string name="box_office">Box office</string>
     <string name="box_office_time">Moday–Sunday 5pm – 9pm</string>
+    <string name="box_office_phone">778 448 574</string>
 
-    <string name="box_office_number">778 448 574</string>
     <string name="general_questions">General questions</string>
     <string name="general_questions_mail">info@kinoscala.cz</string>
+
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

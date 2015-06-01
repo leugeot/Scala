@@ -26,8 +26,8 @@
         android:layout_below="@id/ticket_reservation"/>
 
     <TextView
-        android:id="@+id/ticket_reservation_number"
-        android:text="@string/ticket_reservation_number"
+        android:id="@+id/ticket_reservation_phone"
+        android:text="@string/ticket_reservation_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
@@ -43,7 +43,7 @@
         android:textSize="16dp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/ticket_reservation_number" />
+        android:layout_below="@id/ticket_reservation_phone" />
 
     <TextView
         android:id="@+id/box_office_time"
@@ -56,7 +56,7 @@
         android:layout_below="@id/box_office"/>
     <TextView
         android:id="@+id/box_office_number"
-        android:text="@string/box_office_number"
+        android:text="@string/box_office_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16dp"
@@ -117,12 +117,26 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/address2" />
-    <ImageView
+    <!--<ImageView
         android:id="@+id/call"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/call"
         android:layout_toRightOf="@id/ticket_reservation_time"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"/> -->
+    <ImageButton
+        android:id="@+id/ticket_reservation_call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call"
+        android:layout_toRightOf="@id/ticket_reservation_time"
+        android:layout_marginTop="15dp"/>
+    <ImageButton
+        android:id="@+id/box_office_call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call"
+        android:layout_toRightOf="@id/ticket_reservation_time"
+        android:layout_below="@id/ticket_reservation_phone"/>
 
 </RelativeLayout>
