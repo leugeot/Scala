@@ -5,4 +5,10 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="Scala" parent="Theme.AppCompat">
+        <item name="android:background">#000000</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
 </resources>
