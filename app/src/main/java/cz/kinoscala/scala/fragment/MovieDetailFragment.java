@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,9 +59,11 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieDetailCurrency;
     private TextView movieDetailCsfd;
     private TextView movieDetailImdb;
+    private String movieDetailReservationUrl;
     private ImageView movieImage;
 
     private OnFragmentInteractionListener mListener;
+    ImageButton ticketReservationUrlButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -94,8 +98,8 @@ public class MovieDetailFragment extends Fragment {
             protected void onPreExecute() {
                 super.onPreExecute();
 
-                progressDialog = new ProgressDialog(getActivity());
-                progressDialog.setMessage("Downloading movies");
+                progressDialog = new ProgressDialog(getActivity(), R.style.ScalaProgressDialog);
+                progressDialog.setMessage("Downloading movie");
                 progressDialog.setCancelable(false);
                 progressDialog.show();
             }
@@ -136,6 +140,7 @@ public class MovieDetailFragment extends Fragment {
             movieDetailPrice.setText(Integer.toString(movie.getPrice()) + " Kč");
             movieDetailCsfd.setText("ČSFD rating: " + Integer.toString(movie.getCsfdRating()) + "%");
             movieDetailImdb.setText("IMDB rating: " + Double.toString(movie.getImdbRating()) + "/10");
+            movieDetailReservationUrl = movie.getReservationUrl();
 
             File imgFile = new File(Environment.getExternalStorageDirectory() +
                     "/KinoScalaImages/" + movie.getId() + ".jpg");
@@ -200,8 +205,11 @@ public class MovieDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
+        ticketReservationUrlButton = (ImageButton) v.findViewById(R.id.movie_detail_reservation_button);
+        addListenerOnButton();
+
         movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
-        movieDetailYear = (TextView) v.findViewById(R.id.movie_detail_year);
+        //movieDetailYear = (TextView) v.findViewById(R.id.movie_detail_year);
         movieImage = (ImageView) v.findViewById(R.id.movie_detail_image);
         movieDetailPlot = (TextView) v.findViewById(R.id.movie_detail_plot);
         movieDetailPrice = (TextView) v.findViewById(R.id.movie_detail_price);
@@ -249,6 +257,22 @@ public class MovieDetailFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public void addListenerOnButton() {
+
+        if (mListener != null) {
+            ticketReservationUrlButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent openUrl = new Intent(Intent.ACTION_VIEW);
+                    String url = movie.getReservationUrl();
+                    openUrl.setData(Uri.parse(url));
+                    startActivity(openUrl);
+                }
+            });
+        }
+
     }
 
 }

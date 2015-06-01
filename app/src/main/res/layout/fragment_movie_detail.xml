@@ -5,16 +5,16 @@
     tools:context="cz.kinoscala.scala.fragment.MovieDetailFragment">
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:nestedScrollingEnabled="false"
+        android:nestedScrollingEnabled="true"
         android:gravity="top"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp">
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -24,19 +24,16 @@
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:gravity="center"
-        android:layout_marginBottom="10dp" />
-
-    <TextView
-        android:id="@+id/movie_detail_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="top" />
 
     <ImageView
         android:id="@+id/movie_detail_image"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginBottom="20dp"
-        android:maxHeight="100dp" />
+        android:contentDescription="@string/movie_image"
+        android:layout_gravity="top" />
 
     <TextView
         android:id="@+id/movie_detail_plot"
@@ -66,13 +63,28 @@
         android:layout_gravity="top"
         android:layout_marginBottom="20dp"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="20dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="Reservation: "
+        android:id="@+id/text_reservation" />
+
     <ImageButton
         android:id="@+id/movie_detail_reservation_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/icon_reservation"
+        android:background="@color/black"
         android:layout_gravity="top"
-        android:layout_marginBottom="20dp"/>
-
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/text_reservation"
+        android:layout_marginLeft="10dp" />
+    </RelativeLayout>
     </LinearLayout>
     </ScrollView>
 
