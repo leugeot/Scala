@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
-        android:textColor="#43bd00"
         android:textSize="16sp"
         android:textStyle="bold" />
 
@@ -20,8 +19,7 @@
         android:id="@+id/date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:textColor="#acacac" />
+        android:paddingBottom="2dip" />
 
 
 </LinearLayout>
