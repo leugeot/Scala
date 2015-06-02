@@ -177,7 +177,7 @@ public class UpcomingMoviesFragment extends Fragment {
             super.onPreExecute();
 
             progressDialog = new ProgressDialog(getActivity());
-            progressDialog.setMessage("Downloading movies");
+            progressDialog.setMessage(getString(R.string.downloading_movies));
             progressDialog.setCancelable(false);
             progressDialog.show();
         }

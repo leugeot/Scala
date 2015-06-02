@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Scala</string>
+    <string name="action_example">Vzorová akce</string>
+    <string name="action_settings">Nastavení</string>
+    <string name="address1">Kino Scala</string>
+    <string name="box_office_time">Pondělí - Neděle 17:00 - 19:00</string>
+    <string name="box_office">Pokladna</string>
+    <string name="contact_title_section">Kontakt</string>
+    <string name="downloading_movie">Stahuji detail</string>
+    <string name="downloading_movies">Stahuji filmy</string>
+    <string name="general_questions">Obecné dotazy</string>
+    <string name="movie_detail">detail filmu</string>
+    <string name="movie_image">obrázek filmu</string>
+    <string name="notifications_title_section">Notifikace</string>
+    <string name="reservation">Rezervace: </string>
+    <string name="ticket_reservation">Rezervace lístků</string>
+    <string name="ticket_reservation_time">každý pracovní den 10:00 - 17:00</string>
+    <string name="upcoming_movies_title_section">Aktuální program</string>
+</resources>

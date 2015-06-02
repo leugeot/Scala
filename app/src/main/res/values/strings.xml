@@ -1,39 +1,31 @@
 <resources>
     <string name="app_name">Scala</string>
-
     <string name="action_settings">Settings</string>
-
-    <string name="movie_detail">Movie detail</string>
-
+    <string name="movie_detail">movie detail</string>
     <string name="upcoming_movies_title_section">Upcoming movies</string>
     <string name="notifications_title_section">Notifications</string>
     <string name="contact_title_section">Contact</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_example">Example action</string>
-
     // \n zmenit na multiplatformove
     <string name="address1">Kino Scala</string>
-    <string name="address2">Moravské náměstí</string>
-    <string name="address3">602 00 Brno</string>
-
+    <string name="address2" translatable="false">Moravské náměstí</string>
+    <string name="address3" translatable="false">602 00 Brno</string>
     <string name="ticket_reservation">Ticket reservation</string>
     <string name="ticket_reservation_time">every working day 10am - 5pm</string>
-    <string name="ticket_reservation_phone">608 33 00 88</string>
-
+    <string name="ticket_reservation_phone" translatable="false">608 33 00 88</string>
     <string name="box_office">Box office</string>
     <string name="box_office_time">Moday–Sunday 5pm – 9pm</string>
-    <string name="box_office_phone">778 448 574</string>
-
+    <string name="box_office_phone" translatable="false">778 448 574</string>
     <string name="general_questions">General questions</string>
-    <string name="general_questions_mail">info@kinoscala.cz</string>
-
+    <string name="general_questions_mail" translatable="false">info@kinoscala.cz</string>
+    <string name="downloading_movie">Downloading detail</string>
+    <string name="reservation">Reservation: </string>
+    <string name="downloading_movies">Downloading movies</string>
 
 <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="movie_image">movie_image</string>
-    <string name="downloading_movie">Downloading movie</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="movie_image">movie image</string>
 
 </resources>
