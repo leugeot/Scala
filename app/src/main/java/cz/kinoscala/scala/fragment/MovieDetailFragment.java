@@ -99,7 +99,7 @@ public class MovieDetailFragment extends Fragment {
                 super.onPreExecute();
 
                 progressDialog = new ProgressDialog(getActivity(), R.style.ScalaProgressDialog);
-                progressDialog.setMessage("Downloading movie");
+                progressDialog.setMessage(getString(R.string.downloading_movie));
                 progressDialog.setCancelable(false);
                 progressDialog.show();
             }

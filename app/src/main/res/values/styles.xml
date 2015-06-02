@@ -11,9 +11,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-    <style name="ScalaProgressDialog" parent="Theme.AppCompat.DialogWhenLarge">
+    <style name="ScalaProgressDialog" parent="Base.Theme.AppCompat.DialogWhenLarge">
         <item name="android:alertDialogStyle">@style/ScalaAlertDialog</item>
-        <item name="android:windowBackground">@color/black</item>
+        <item name="android:windowBackground">@color/dialog_color</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:textSize">18sp</item>
