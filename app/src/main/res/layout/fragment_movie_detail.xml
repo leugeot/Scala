@@ -27,6 +27,14 @@
         android:layout_marginBottom="10dp"
         android:layout_gravity="top" />
 
+    <TextView
+        android:id="@+id/movie_detail_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="top" />
+
     <ImageView
         android:id="@+id/movie_detail_image"
         android:layout_width="match_parent"
