@@ -16,7 +16,7 @@
     <string name="ticket_reservation_time">every working day 10am - 5pm</string>
     <string name="ticket_reservation_phone" translatable="false">608 33 00 88</string>
     <string name="box_office">Box office</string>
-    <string name="box_office_time">Moday–Sunday 5pm – 9pm</string>
+    <string name="box_office_time">Moday – Sunday 5pm – 9pm</string>
     <string name="box_office_phone" translatable="false">778 448 574</string>
     <string name="general_questions">General questions</string>
     <string name="general_questions_mail" translatable="false">info@kinoscala.cz</string>

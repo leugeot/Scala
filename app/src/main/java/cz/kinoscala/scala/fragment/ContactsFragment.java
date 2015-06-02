@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import cz.kinoscala.scala.R;
@@ -19,6 +20,10 @@ public class ContactsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     ImageButton ticketReservationCallButton;
     ImageButton boxOfficeCallButton;
+    Button ticketReservationPhoneButton;
+    Button boxOfficePhoneButton;
+    Button generalQuestionsMailButton;
+
 
 
     @Override
@@ -32,6 +37,9 @@ public class ContactsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_contacts, container, false);
         ticketReservationCallButton = (ImageButton) v.findViewById(R.id.ticket_reservation_call_button);
         boxOfficeCallButton = (ImageButton) v.findViewById(R.id.box_office_call_button);
+        ticketReservationPhoneButton = (Button) v.findViewById(R.id.ticket_reservation_phone);
+        boxOfficePhoneButton = (Button) v.findViewById(R.id.box_office_phone);
+        generalQuestionsMailButton = (Button) v.findViewById(R.id.general_questions_mail);
         addListenerOnButton();
         return v;
     }
@@ -78,11 +86,30 @@ public class ContactsFragment extends Fragment {
     public void addListenerOnButton() {
 
         if (mListener != null) {
+            ticketReservationPhoneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    String phoneNumber = "tel:" + "+420 608 330 088";
+                    callIntent.setData(Uri.parse(phoneNumber));
+                    startActivity(callIntent);
+                }
+            });
             ticketReservationCallButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent callIntent = new Intent(Intent.ACTION_DIAL);
                     String phoneNumber = "tel:" + "+420 608 330 088";
+                    callIntent.setData(Uri.parse(phoneNumber));
+                    startActivity(callIntent);
+                }
+            });
+
+            boxOfficePhoneButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                    String phoneNumber = "tel:" + "+420 778 448 574";
                     callIntent.setData(Uri.parse(phoneNumber));
                     startActivity(callIntent);
                 }
@@ -97,8 +124,20 @@ public class ContactsFragment extends Fragment {
                     startActivity(callIntent);
                 }
             });
+
+            generalQuestionsMailButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v){
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("plain/text");
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "info@kinoscala.cz" });
+                    startActivity(Intent.createChooser(intent, ""));
+                }
+            });
         }
 
     }
+
+
 
 }
