@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.session.MediaController;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -62,7 +64,8 @@ public class MovieDetailFragment extends Fragment {
     private ImageView movieImage;
 
     private OnFragmentInteractionListener mListener;
-    ImageButton ticketReservationUrlButton;
+    private ImageButton ticketReservationUrlButton;
+    private ImageButton movieDetailYoutube;
 
     /**
      * Use this factory method to create a new instance of
@@ -213,9 +216,6 @@ public class MovieDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        ticketReservationUrlButton = (ImageButton) v.findViewById(R.id.movie_detail_reservation_button);
-        addListenerOnButton();
-
         movieDetailName = (TextView) v.findViewById(R.id.movie_detail_name);
         movieDetailYear = (TextView) v.findViewById(R.id.movie_detail_year);
         movieImage = (ImageView) v.findViewById(R.id.movie_detail_image);
@@ -223,7 +223,15 @@ public class MovieDetailFragment extends Fragment {
         movieDetailPrice = (TextView) v.findViewById(R.id.movie_detail_price);
         movieDetailCsfd = (TextView) v.findViewById(R.id.movie_detail_csfd_rating);
         movieDetailImdb = (TextView) v.findViewById(R.id.movie_detail_imdb_rating);
+
+        ticketReservationUrlButton = (ImageButton) v.findViewById(R.id.movie_detail_reservation_button);
+        movieDetailYoutube = (ImageButton) v.findViewById(R.id.movie_detail_trailer_button);
+
+        addListenerOnButton();
+
         downloadAndParseMovieDetail();
+
+
 
         return v;
     }
@@ -277,6 +285,12 @@ public class MovieDetailFragment extends Fragment {
                     String url = movie.getReservationUrl();
                     openUrl.setData(Uri.parse(url));
                     startActivity(openUrl);
+                }
+            });
+            movieDetailYoutube.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + movie.getYoutubeUrl())));
                 }
             });
         }
