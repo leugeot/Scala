@@ -54,6 +54,41 @@ public class NotificationsTable {
         return database.insert(TABLE_NAME, null, contentValues);
     }
 
+
+    /** Removes notifications for selected movie.
+     * @param database open database
+     * @param movieID id of movie for which will be notifications removed
+     * @return number of deleted rows
+     */
+    public static int remove(SQLiteDatabase database, long movieID) {
+        if (database == null)
+            throw new NullPointerException("Database is NULL");
+
+        String[] selectionArgs = {
+                Long.toString(movieID)
+        };
+
+        return database.delete(TABLE_NAME, MOVIE_ID + " = ?", selectionArgs);
+    }
+
+    public static int getNotificationForMovie(SQLiteDatabase database, long movieId) {
+        String[] projection = {ID};
+        String selection = MOVIE_ID + " = ?";
+        String[] selectionArgs = {Long.toString(movieId)};
+
+        Cursor cursor = database.query(TABLE_NAME, projection, selection, selectionArgs, null, null,
+                null);
+
+        int notificationID;
+        if (cursor.moveToNext()) {
+            notificationID = cursor.getInt(0);
+        } else {
+            notificationID = -1;
+        }
+        cursor.close();
+        return notificationID;
+    }
+
     public static List<MovieNotification> getNotifications(SQLiteDatabase database) {
         int id;
         int movie_id;

@@ -36,9 +36,6 @@ public class DBManager {
     public void insertMovie(Movie movie) {
         if (!MoviesTable.containsMovieId(readableDatabase ,movie.getId())) {
             MoviesTable.insert(writableDatabase, movie);
-
-//            JUST FOR TEST -- REMOVE LATER
-            NotificationsTable.insert(writableDatabase, movie.getId());
         }
     }
 
@@ -54,7 +51,11 @@ public class DBManager {
         return NotificationsTable.getNotifications(readableDatabase);
     }
 
-    public void insertNotification(MovieNotification notification, long movieId) {
-        NotificationsTable.insert(writableDatabase, movieId);
+    public int insertNotification(long movieId) {
+        return (int)NotificationsTable.insert(writableDatabase, movieId);
+    }
+
+    public int removeNotification(long movieId) {
+        return NotificationsTable.remove(writableDatabase, movieId);
     }
 }

@@ -1,28 +1,25 @@
 package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
-import android.app.DownloadManager;
+import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.media.session.MediaController;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -32,11 +29,10 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import cz.kinoscala.scala.JSONLoader;
 import cz.kinoscala.scala.Movie;
+import cz.kinoscala.scala.MovieNotificationManager;
 import cz.kinoscala.scala.MovieParser;
 import cz.kinoscala.scala.R;
 
@@ -66,6 +62,7 @@ public class MovieDetailFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ImageButton ticketReservationUrlButton;
     private ImageButton movieDetailYoutube;
+    private ImageButton notifyButton;
 
     /**
      * Use this factory method to create a new instance of
@@ -92,6 +89,12 @@ public class MovieDetailFragment extends Fragment {
         if (getArguments() != null) {
             movie = (Movie) getArguments().getSerializable(MOVIE);
         }
+
+//        MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext() ,
+//                (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
+//
+//        mnm.addNotification(movie, 6, 8);
+//        mnm.removeNotification(movie.getId());
     }
 
     private void downloadAndParseMovieDetail() {
@@ -226,12 +229,11 @@ public class MovieDetailFragment extends Fragment {
 
         ticketReservationUrlButton = (ImageButton) v.findViewById(R.id.movie_detail_reservation_button);
         movieDetailYoutube = (ImageButton) v.findViewById(R.id.movie_detail_trailer_button);
+        notifyButton = (ImageButton) v.findViewById(R.id.movie_detail_notify_button);
 
         addListenerOnButton();
 
         downloadAndParseMovieDetail();
-
-
 
         return v;
     }
@@ -291,6 +293,19 @@ public class MovieDetailFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + movie.getYoutubeUrl())));
+                }
+            });
+
+            notifyButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext() ,
+                            (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
+
+                    mnm.addNotification(movie, 6, 8);
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                    alertDialog.setMessage("Notification added!");
+                    alertDialog.show();
                 }
             });
         }

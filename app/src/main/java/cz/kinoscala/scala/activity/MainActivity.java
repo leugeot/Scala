@@ -1,25 +1,14 @@
 package cz.kinoscala.scala.activity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
-import android.view.View;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import cz.kinoscala.scala.R;
 import cz.kinoscala.scala.fragment.ContactsFragment;
@@ -27,7 +16,6 @@ import cz.kinoscala.scala.fragment.MovieDetailFragment;
 import cz.kinoscala.scala.fragment.NavigationDrawerFragment;
 import cz.kinoscala.scala.fragment.NotificationListFragment;
 import cz.kinoscala.scala.fragment.UpcomingMoviesFragment;
-import cz.kinoscala.scala.notification.MovieNotificationReceiver;
 
 public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks,
@@ -46,8 +34,6 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
-    private PendingIntent pendingIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +47,6 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-//        notificationTest();
     }
 
     @Override
@@ -166,43 +150,5 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-
-    private void notificationTest() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, 3);
-        calendar.set(Calendar.YEAR, 2015);
-        calendar.set(Calendar.DAY_OF_MONTH, 25);
-
-        calendar.set(Calendar.HOUR_OF_DAY, 5);
-        calendar.set(Calendar.MINUTE, 44);
-        calendar.set(Calendar.SECOND, 50);
-        calendar.set(Calendar.AM_PM,Calendar.PM);
-
-        System.out.println("time of film: \n" +
-                "MONTH " + calendar.get(Calendar.MONTH) + "\n" +
-                "YEAR " + calendar.get(Calendar.YEAR) + "\n" +
-                "DAY_OF_MONTH " + calendar.get(Calendar.DAY_OF_MONTH) + "\n" +
-                "HOUR_OF_DAY " + calendar.get(Calendar.HOUR_OF_DAY) + "\n" +
-                "MINUTE " + calendar.get(Calendar.MINUTE) + "\n" +
-                "SECOND " + calendar.get(Calendar.SECOND) + "\n" +
-                "AM_PM " + calendar.get(Calendar.AM_PM) + "\n");
-
-        Calendar c = Calendar.getInstance();
-        System.out.println("time of android: \n" +
-                "MONTH " + c.get(Calendar.MONTH) + "\n" +
-                "YEAR " + c.get(Calendar.YEAR) + "\n" +
-                "DAY_OF_MONTH " + c.get(Calendar.DAY_OF_MONTH) + "\n" +
-                "HOUR_OF_DAY " + c.get(Calendar.HOUR_OF_DAY) + "\n" +
-                "MINUTE " + c.get(Calendar.MINUTE) + "\n" +
-                "SECOND " + c.get(Calendar.SECOND) + "\n" +
-                "AM_PM " + c.get(Calendar.AM_PM) + "\n");
-
-        Intent myIntent = new Intent(MainActivity.this, MovieNotificationReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
-
-        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-        alarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), pendingIntent);
     }
 }
