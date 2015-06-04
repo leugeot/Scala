@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,8 +56,8 @@ public class MovieDetailFragment extends Fragment {
     private TextView movieDetailPlot;
     private TextView movieDetailPrice;
     private TextView movieDetailCurrency;
-    private TextView movieDetailCsfd;
-    private TextView movieDetailImdb;
+    private Button movieDetailCsfd;
+    private Button movieDetailImdb;
     private ImageView movieImage;
 
     private OnFragmentInteractionListener mListener;
@@ -216,8 +217,8 @@ public class MovieDetailFragment extends Fragment {
         movieImage = (ImageView) v.findViewById(R.id.movie_detail_image);
         movieDetailPlot = (TextView) v.findViewById(R.id.movie_detail_plot);
         movieDetailPrice = (TextView) v.findViewById(R.id.movie_detail_price);
-        movieDetailCsfd = (TextView) v.findViewById(R.id.movie_detail_csfd_rating);
-        movieDetailImdb = (TextView) v.findViewById(R.id.movie_detail_imdb_rating);
+        movieDetailCsfd = (Button) v.findViewById(R.id.movie_detail_csfd_rating);
+        movieDetailImdb = (Button) v.findViewById(R.id.movie_detail_imdb_rating);
 
         ticketReservationUrlButton = (ImageButton) v.findViewById(R.id.movie_detail_reservation_button);
         movieDetailYoutube = (ImageButton) v.findViewById(R.id.movie_detail_trailer_button);
@@ -294,10 +295,36 @@ public class MovieDetailFragment extends Fragment {
                     MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext(),
                             (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
 
+                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                     if (!mnm.hasNotification(movie.getId())) {
                         mnm.addNotification(movie, 2, 8);
+                        alertDialog.setMessage(getString(R.string.notification_added));
+                    } else {
+                        alertDialog.setMessage(getString(R.string.notification_not_added));
+                    }
+                    alertDialog.show();
+                }
+            });
+            movieDetailImdb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(movie.getImdbID() != null) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.imdb.com/title/" + movie.getImdbID())));
+                    } else {
                         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                        alertDialog.setMessage("Notification added!");
+                        alertDialog.setMessage(getString(R.string.imdb_not_found));
+                        alertDialog.show();
+                    }
+                }
+            });
+            movieDetailCsfd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(movie.getCsfdID() != null) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.csfd.cz/film/" + movie.getCsfdID())));
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setMessage(getString(R.string.csfd_not_found));
                         alertDialog.show();
                     }
                 }

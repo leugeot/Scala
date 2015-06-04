@@ -19,4 +19,16 @@
     <string name="upcoming_movies_title_section">Aktuální program</string>
     <string name="imdb_no_rating">neuveden</string>
     <string name="price_not_available">cena neuvedena</string>
+    <string name="bus_no">Autobusy č. 81, 82</string>
+    <string name="noWifi1">"Prosím, připojete se k internetu pro aktualizaci programu."</string>
+    <string name="noWifi2">"Prosím, připojte se internetu pro detail filmu."</string>
+    <string name="notification_added">Připomenutí přidáno</string>
+    <string name="notification_not_added">Připomenutí se nepodařilo přidat</string>
+    <string name="notify">Připomenutí</string>
+    <string name="remove_notification">Odstranit připomenutí</string>
+    <string name="trailer">trailer</string>
+    <string name="tram_no">Tramvaje č. 3,4,5,6,9,11</string>
+    <string name="tram_stop">Zastávka Česká</string>
+    <string name="csfd_not_found">Čsfd stránka neexistuje</string>
+    <string name="imdb_not_found">Imdb stránka neexistuje</string>
 </resources>

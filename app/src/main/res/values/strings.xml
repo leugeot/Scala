@@ -5,8 +5,8 @@
     <string name="upcoming_movies_title_section">Upcoming movies</string>
     <string name="notifications_title_section">Notifications</string>
     <string name="contact_title_section">Contact</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="address1">Kino Scala</string>
     <string name="address2" translatable="false">Moravské náměstí</string>
@@ -20,18 +20,21 @@
     <string name="general_questions">General questions</string>
     <string name="general_questions_mail" translatable="false">info@kinoscala.cz</string>
     <string name="downloading_movie">Downloading detail</string>
-    <string name="reservation">Reservation: </string>
+    <string name="reservation">Reservation</string>
     <string name="downloading_movies">Downloading movies</string>
     <string name="imdb_no_rating">not yet rated</string>
     <string name="price_not_available">price not available</string>
-    <string name="trailer">Trailer:</string>
+    <string name="trailer">Trailer</string>
     <string name="notify">Remind me</string>
     <string name="noWifi1">"Please connect to internet for most recent movies."</string>
     <string name="noWifi2">"Please connect to internet for movie details."</string>
     <string name="tram_stop">Tram stop Česká</string>
     <string name="tram_no">Tram No. 3, 4, 5, 6, 9, 11</string>
     <string name="bus_no">Bus No. 81, 82</string>
-
+    <string name="notification_added">Notification added</string>
+    <string name="notification_not_added">Notification can not be added...</string>
+    <string name="imdb_not_found">Imdb page does not exist</string>
+    <string name="csfd_not_found">Čsfd page does not exist</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

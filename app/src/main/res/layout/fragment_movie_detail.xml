@@ -20,20 +20,20 @@
 
     <TextView
         android:id="@+id/movie_detail_name"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30sp"
         android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:layout_gravity="top" />
+        android:layout_gravity="top|center_horizontal" />
 
     <TextView
         android:id="@+id/movie_detail_year"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_marginBottom="10dp"
-        android:layout_gravity="top" />
+        android:layout_gravity="top|center_horizontal" />
 
     <ImageView
         android:id="@+id/movie_detail_image"
@@ -52,35 +52,45 @@
 
     <TextView
         android:id="@+id/movie_detail_price"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginBottom="20dp"/>
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center" />
 
-    <TextView
+    <Button
         android:id="@+id/movie_detail_csfd_rating"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginBottom="20dp"/>
+        android:background="@color/gray"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
-    <TextView
+    <Button
         android:id="@+id/movie_detail_imdb_rating"
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginBottom="20dp"/>
+        android:background="@color/gray"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="match_parent"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:gravity="top"
         android:text="@string/reservation"
-        android:id="@+id/text_reservation" />
+        android:id="@+id/text_reservation"
+        android:layout_centerVertical="true" />
 
     <ImageButton
         android:id="@+id/movie_detail_reservation_button"
@@ -88,17 +98,15 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icon_reservation"
         android:background="@color/black"
-        android:layout_gravity="top"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/text_reservation"
-        android:layout_toEndOf="@+id/text_reservation"
-        android:layout_marginLeft="10dp" />
+        android:layout_alignParentRight="true" />
 
     </RelativeLayout>
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center_horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,44 +115,48 @@
             android:id="@+id/text_trailer"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="false" />
 
         <ImageButton
             android:id="@+id/movie_detail_trailer_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_play"
-            android:background="@color/black"
-            android:layout_gravity="top"
-            android:layout_marginLeft="30dp"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/text_trailer"
-            android:layout_toEndOf="@+id/text_trailer"
-            android:layout_marginStart="37dp" />
+            android:background="@color/gray"
+            android:layout_alignParentTop="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignParentRight="true"
+            android:contentDescription="trailer button" />
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="top|center_horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/notify"
-            android:id="@+id/text_notify" />
+            android:id="@+id/text_notify"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true" />
         <ImageButton
             android:id="@+id/movie_detail_notify_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_bell"
-            android:background="@color/black"
-            android:layout_gravity="top"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/text_notify"
-            android:layout_toEndOf="@+id/text_notify"
+            android:background="@color/gray"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="37dp"
-            android:contentDescription="@string/notify" />
+            android:contentDescription="@string/notify"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="11dp"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp" />
 
     </RelativeLayout>
     </LinearLayout>
