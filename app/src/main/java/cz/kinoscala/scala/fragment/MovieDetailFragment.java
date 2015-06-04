@@ -285,7 +285,13 @@ public class MovieDetailFragment extends Fragment {
             movieDetailYoutube.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + movie.getYoutubeUrl())));
+                    if (movie.getYoutubeUrl() != null) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://youtube.com/watch?v=" + movie.getYoutubeUrl())));
+                    } else {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setMessage(getString(R.string.youtube_not_found));
+                        alertDialog.show();
+                    }
                 }
             });
 

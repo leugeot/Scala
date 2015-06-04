@@ -29,7 +29,8 @@
     <string name="trailer">trailer</string>
     <string name="tram_no">Tramvaje č. 3,4,5,6,9,11</string>
     <string name="tram_stop">Zastávka Česká</string>
-    <string name="csfd_not_found">Čsfd stránka neexistuje</string>
-    <string name="imdb_not_found">Imdb stránka neexistuje</string>
+    <string name="csfd_not_found">Čsfd stránka není k dispozici</string>
+    <string name="imdb_not_found">Imdb stránka není k dispozici</string>
     <string name="price">Cena</string>
+    <string name="youtube_not_found">Trailer není k dispozici</string>
 </resources>

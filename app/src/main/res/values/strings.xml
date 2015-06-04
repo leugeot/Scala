@@ -34,8 +34,9 @@
     <string name="bus_no">Bus No. 81, 82</string>
     <string name="notification_added">Notification added</string>
     <string name="notification_not_added">Notification can not be added...</string>
-    <string name="imdb_not_found">Imdb page does not exist</string>
-    <string name="csfd_not_found">Čsfd page does not exist</string>
+    <string name="imdb_not_found">Imdb page not available</string>
+    <string name="csfd_not_found">Čsfd page not available</string>
+    <string name="youtube_not_found">Traler not available</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
