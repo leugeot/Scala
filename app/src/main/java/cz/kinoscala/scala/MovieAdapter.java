@@ -69,7 +69,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         File imgFile = new File(Environment.getExternalStorageDirectory() +
                 "/KinoScalaImages/" + movie.getId() + ".jpg");
         if (imgFile.exists()) {
-            Picasso.with(getContext()).load(imgFile).into(holder.image);
+            Picasso.with(getContext().getApplicationContext()).load(imgFile).into(holder.image);
         } else {
             if (movie.getImageUrl() != null && !"".equals(movie.getImageUrl())) {
                 Picasso.with(getContext().getApplicationContext()).load(movie.getImageUrl()).into(holder.image, new Callback.EmptyCallback());
