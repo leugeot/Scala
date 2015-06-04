@@ -89,12 +89,6 @@ public class MovieDetailFragment extends Fragment {
         if (getArguments() != null) {
             movie = (Movie) getArguments().getSerializable(MOVIE);
         }
-
-//        MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext() ,
-//                (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
-//
-//        mnm.addNotification(movie, 6, 8);
-//        mnm.removeNotification(movie.getId());
     }
 
     private void downloadAndParseMovieDetail() {
@@ -137,7 +131,7 @@ public class MovieDetailFragment extends Fragment {
         }.execute();
     }
 
-    private void updateMovieDetail(){
+    private void updateMovieDetail() {
         if (movie != null) {
             movieDetailName.setText(movie.getName());
             if (movie.getYear() != 0) {
@@ -182,26 +176,24 @@ public class MovieDetailFragment extends Fragment {
                 @Override
                 public void run() {
                     File imageDirectory = new File(Environment.getExternalStorageDirectory() + "/KinoScalaImages");
-                    if (!imageDirectory.exists()){
+                    if (!imageDirectory.exists()) {
                         imageDirectory.mkdir();
                     }
 
-                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/KinoScalaImages/" + movie.getId() +".jpg");
-                    try
-                    {
+                    File file = new File(Environment.getExternalStorageDirectory().getPath() + "/KinoScalaImages/" + movie.getId() + ".jpg");
+                    try {
                         file.createNewFile();
                         FileOutputStream ostream = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 75, ostream);
                         ostream.close();
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                 }
             }).start();
         }
+
         @Override
         public void onBitmapFailed(Drawable errorDrawable) {
         }
@@ -299,13 +291,15 @@ public class MovieDetailFragment extends Fragment {
             notifyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext() ,
+                    MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext(),
                             (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
 
-                    mnm.addNotification(movie, 6, 8);
-                    AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                    alertDialog.setMessage("Notification added!");
-                    alertDialog.show();
+                    if (!mnm.hasNotification(movie.getId())) {
+                        mnm.addNotification(movie, 2, 8);
+                        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+                        alertDialog.setMessage("Notification added!");
+                        alertDialog.show();
+                    }
                 }
             });
         }

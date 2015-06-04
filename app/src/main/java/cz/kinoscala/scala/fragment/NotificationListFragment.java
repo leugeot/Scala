@@ -1,10 +1,12 @@
 package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -20,6 +22,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import cz.kinoscala.scala.MovieNotification;
+import cz.kinoscala.scala.MovieNotificationManager;
 import cz.kinoscala.scala.NotificationAdapter;
 import cz.kinoscala.scala.R;
 import cz.kinoscala.scala.database.DBManager;
@@ -34,6 +37,7 @@ public class NotificationListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ListView notificationListView;
+    private NotificationAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +63,7 @@ public class NotificationListFragment extends Fragment {
 
     private void updateNotificationsListView(List<MovieNotification> notifications) {
         if (notifications != null) {
-            ListAdapter adapter = new NotificationAdapter(getActivity(), 0, notifications);
+            adapter = new NotificationAdapter(getActivity(), 0, notifications);
             notificationListView.setAdapter(adapter);
         }
     }
@@ -113,5 +117,15 @@ public class NotificationListFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
+    }
+
+    public void removeNotification(View view) {
+        MovieNotification notification = (MovieNotification) view.getTag();
+        adapter.remove(notification);
+
+        MovieNotificationManager mnm = new MovieNotificationManager(getActivity().getApplicationContext(),
+                (AlarmManager) getActivity().getSystemService(FragmentActivity.ALARM_SERVICE));
+
+        mnm.removeNotification(notification.getMovie().getId(), notification.getID());
     }
 }

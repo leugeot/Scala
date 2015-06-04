@@ -22,9 +22,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".notification.MovieNotificationService"
-            android:enabled="true" />
-
         <receiver android:name=".notification.MovieNotificationReceiver"/>
 
     </application>

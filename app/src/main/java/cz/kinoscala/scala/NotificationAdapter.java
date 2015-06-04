@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -13,15 +14,19 @@ import java.util.List;
  * Created by petr on 29. 5. 2015.
  */
 public class NotificationAdapter extends ArrayAdapter<MovieNotification> {
+    private List<MovieNotification> notifications;
 
     public NotificationAdapter(Activity activity, int resource,
                                List<MovieNotification> notifications) {
         super(activity, resource, notifications);
+        this.notifications = notifications;
     }
 
     public static class NotificationViewHolder {
+        public MovieNotification movieNotification;
         public TextView name;
         public TextView date;
+        public ImageButton removeNotificationButton;
     }
 
     @Override
@@ -34,8 +39,11 @@ public class NotificationAdapter extends ArrayAdapter<MovieNotification> {
 
             holder = new NotificationViewHolder();
 
+            holder.movieNotification = notifications.get(position);
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.date = (TextView) convertView.findViewById(R.id.date);
+            holder.removeNotificationButton = (ImageButton) convertView.findViewById(R.id.remove_notification_button);
+            holder.removeNotificationButton.setTag(holder.movieNotification);
 
             convertView.setTag(holder);
         } else {

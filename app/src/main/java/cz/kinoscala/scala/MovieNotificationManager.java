@@ -83,4 +83,19 @@ public class MovieNotificationManager {
             Log.e("MainActivity", e.toString());
         }
     }
+
+    public boolean hasNotification(long movieId) {
+        DBManager dbManager = new DBManager(context);
+
+        boolean hasMovieId = false;
+        try {
+            dbManager.open();
+            hasMovieId = dbManager.hasNotification(movieId);
+            dbManager.close();
+        } catch (SQLException e) {
+            // Better show error somehow
+            Log.e("MainActivity", e.toString());
+        }
+        return hasMovieId;
+    }
 }

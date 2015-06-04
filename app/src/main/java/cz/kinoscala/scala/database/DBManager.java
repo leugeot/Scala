@@ -43,8 +43,12 @@ public class DBManager {
         return MoviesTable.getMoviesSince(readableDatabase, date);
     }
 
-    public boolean containsMovieId(int id){
+    public boolean containsMovieId(long id){
         return MoviesTable.containsMovieId(readableDatabase, id);
+    }
+
+    public boolean hasNotification(long movieId){
+        return NotificationsTable.getNotificationForMovie(readableDatabase, movieId) != -1;
     }
 
     public List<MovieNotification> getNotifications(){

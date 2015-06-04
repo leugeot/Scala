@@ -9,7 +9,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.widget.DrawerLayout;
+import android.view.View;
 
+import cz.kinoscala.scala.MovieNotification;
 import cz.kinoscala.scala.R;
 import cz.kinoscala.scala.fragment.ContactsFragment;
 import cz.kinoscala.scala.fragment.MovieDetailFragment;
@@ -28,6 +30,7 @@ public class MainActivity extends ActionBarActivity
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Fragment selectedFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -56,7 +59,7 @@ public class MainActivity extends ActionBarActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         // select correct fragment
-        Fragment selectedFragment = null;
+        selectedFragment = null;
         String tag = null;
 
         switch (position) {
@@ -150,5 +153,9 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    public void removeNotificationHandler(View view) {
+        ((NotificationListFragment)selectedFragment).removeNotification(view);
     }
 }
