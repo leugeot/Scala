@@ -160,7 +160,7 @@ public class MovieDetailFragment extends Fragment {
             if (imgFile.exists()) {
                 Picasso.with(getActivity().getApplicationContext()).load(imgFile).into(movieImage);
             } else {
-                if (movie.getImageUrl() != null || !"".equals(movie.getImageUrl())) {
+                if (movie.getImageUrl() != null && !"".equals(movie.getImageUrl())) {
                     Picasso.with(getActivity().getApplicationContext()).load(movie.getImageUrl()).into(movieImage, new Callback.EmptyCallback());
                     Picasso.with(getActivity().getApplicationContext()).load(movie.getImageUrl())
                             .into(imageTarget);

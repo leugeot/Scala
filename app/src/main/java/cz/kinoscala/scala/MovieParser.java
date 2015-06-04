@@ -49,6 +49,7 @@ public final class MovieParser {
 
                 String imageUrl;
                 imageUrl = MovieParser.parseMovieImageUrl(jsonObjectDetail);
+                Log.i("parseMovieImageUrl", imageUrl);
 
                 movies.add(new Movie(id, name, date, price, imageUrl));
             }
