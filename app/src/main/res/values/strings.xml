@@ -24,6 +24,7 @@
     <string name="downloading_movies">Downloading movies</string>
     <string name="imdb_no_rating">not yet rated</string>
     <string name="price_not_available">price not available</string>
+    <string name="price">Price</string>
     <string name="trailer">Trailer</string>
     <string name="notify">Remind me</string>
     <string name="noWifi1">"Please connect to internet for most recent movies."</string>

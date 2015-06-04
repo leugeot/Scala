@@ -2,12 +2,18 @@ package cz.kinoscala.scala;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -25,6 +31,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         public TextView name;
         public TextView date;
         public TextView price;
+        public ImageView image;
     }
 
     @Override
@@ -40,6 +47,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             holder.name = (TextView) convertView.findViewById(R.id.name);
             holder.date = (TextView) convertView.findViewById(R.id.date);
             holder.price = (TextView) convertView.findViewById(R.id.price);
+            holder.image = (ImageView) convertView.findViewById(R.id.movie_item_image);
 
             convertView.setTag(holder);
         } else {
@@ -49,7 +57,15 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         holder.name.setText(movie.getName());
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm:ss", Locale.getDefault());
         holder.date.setText(dateFormat.format(movie.getDate()));
-        holder.price.setText("Price: " + Integer.toString(movie.getPrice()) + " Kč");
+        holder.price.setText(Integer.toString(movie.getPrice()) + " Kč");
+
+        File imgFile = new File(Environment.getExternalStorageDirectory() +
+                "/KinoScalaImages/" + movie.getId() + ".jpg");
+        if (imgFile.exists()) {
+            Picasso.with(getContext()).load(imgFile).into(holder.image);
+        } else {
+            holder.image.setImageBitmap(null);
+        }
 
         return convertView;
     }

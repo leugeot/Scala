@@ -202,4 +202,11 @@ public class Movie implements Serializable {
         this.date = date;
         this.price = price;
     }
+    public Movie(long id, String name, Date date, int price, String img) {
+        this.id = id;
+        this.name = name;
+        this.date = date;
+        this.price = price;
+        this.imageUrl = img;
+    }
 }

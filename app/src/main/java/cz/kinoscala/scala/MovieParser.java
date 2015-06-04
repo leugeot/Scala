@@ -43,7 +43,14 @@ public final class MovieParser {
                 Long id = movie.getLong("id");
                 int price = movie.getInt("price");
 
-                movies.add(new Movie(id, name, date, price));
+                JSONLoader jsonLoader = new JSONLoader();
+                String url = "http://www.kinoscala.cz/1.0/export/description/" + id;
+                JSONObject jsonObjectDetail = jsonLoader.getJsonFromUrl(url);
+
+                String imageUrl;
+                imageUrl = MovieParser.parseMovieImageUrl(jsonObjectDetail);
+
+                movies.add(new Movie(id, name, date, price, imageUrl));
             }
         } catch (JSONException e) {
             Log.e("MovieParser", "Incorrect JSON file: " + e.toString());
@@ -52,10 +59,23 @@ public final class MovieParser {
         return movies;
     }
 
+    public static String parseMovieImageUrl(JSONObject movieToParse) {
+        if (movieToParse == null) {
+            return null;
+        }
+        try {
+            movieToParse = movieToParse.getJSONObject("film");
+            return movieToParse.getString("image");
+        } catch (JSONException e) {
+            Log.e("MovieParser", "Incorrect JSON file: " + e.toString());
+        }
+        return null;
+    }
     public static Movie parseMovieDetail(JSONObject movieToParse) {
         if (movieToParse == null) {
             return null;
         }
+
 
         Movie movie = new Movie();
 

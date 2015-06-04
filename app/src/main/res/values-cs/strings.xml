@@ -31,4 +31,5 @@
     <string name="tram_stop">Zastávka Česká</string>
     <string name="csfd_not_found">Čsfd stránka neexistuje</string>
     <string name="imdb_not_found">Imdb stránka neexistuje</string>
+    <string name="price">Cena</string>
 </resources>
