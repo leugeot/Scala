@@ -17,7 +17,7 @@
     <string name="ticket_reservation">Rezervace lístků</string>
     <string name="ticket_reservation_time">každý pracovní den 10:00 - 17:00</string>
     <string name="upcoming_movies_title_section">Aktuální program</string>
-    <string name="imdb_no_rating">neuveden</string>
+    <string name="no_rating">neuveden</string>
     <string name="price_not_available">cena neuvedena</string>
     <string name="bus_no">Autobusy č. 81, 82</string>
     <string name="noWifi1">"Prosím, připojete se k internetu pro aktualizaci programu."</string>

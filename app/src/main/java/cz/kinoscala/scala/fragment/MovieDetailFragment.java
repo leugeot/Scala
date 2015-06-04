@@ -144,9 +144,13 @@ public class MovieDetailFragment extends Fragment {
             } else {
                 movieDetailPrice.setText(Integer.toString(movie.getPrice()) + " Kč");
             }
-            movieDetailCsfd.setText("ČSFD rating: " + Integer.toString(movie.getCsfdRating()) + "%");
+            if (movie.getCsfdRating() == 0) {
+                movieDetailCsfd.setText("ČSFD rating: " + Integer.toString(movie.getCsfdRating()) + "%");
+            } else {
+                movieDetailCsfd.setText("ČSFD rating: " + getString(R.string.no_rating));
+            }
             if (movie.getImdbRating() == 0) {
-                movieDetailImdb.setText("IMDB rating: " + getString(R.string.imdb_no_rating));
+                movieDetailImdb.setText("IMDB rating: " + getString(R.string.no_rating));
             } else {
                 movieDetailImdb.setText("IMDB rating: " + Double.toString(movie.getImdbRating()) + "/10");
             }

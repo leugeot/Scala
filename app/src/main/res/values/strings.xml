@@ -22,7 +22,7 @@
     <string name="downloading_movie">Downloading detail</string>
     <string name="reservation">Reservation</string>
     <string name="downloading_movies">Downloading movies</string>
-    <string name="imdb_no_rating">not yet rated</string>
+    <string name="no_rating">not yet rated</string>
     <string name="price_not_available">price not available</string>
     <string name="price">Price</string>
     <string name="trailer">Trailer</string>
@@ -36,7 +36,7 @@
     <string name="notification_not_added">Notification can not be added...</string>
     <string name="imdb_not_found">Imdb page not available</string>
     <string name="csfd_not_found">Čsfd page not available</string>
-    <string name="youtube_not_found">Traler not available</string>
+    <string name="youtube_not_found">Trailer not available</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
