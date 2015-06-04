@@ -2,8 +2,10 @@ package cz.kinoscala.scala.fragment;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -57,6 +60,13 @@ public class UpcomingMoviesFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        if (!wifi.isWifiEnabled()){
+            Log.e("wi-fi", "not available");
+            Toast.makeText(getActivity(), R.string.noWifi1, Toast.LENGTH_LONG).show();
+        }
+
 //        moviesLoadDays = savedInstanceState.getInt("moviesLoadDays");
         moviesLoadDays = 11;
 
@@ -91,17 +101,24 @@ public class UpcomingMoviesFragment extends Fragment {
         movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Movie movie = (Movie) movieListView.getItemAtPosition(position);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+                if (wifi.isWifiEnabled()) {
+                    Log.e("wi-fi", "available");
+                    Movie movie = (Movie) movieListView.getItemAtPosition(position);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
-                String fragmentTag = getString(R.string.movie_detail);
-                Fragment selectedFragment = fragmentManager.findFragmentByTag(fragmentTag);
+                    String fragmentTag = getString(R.string.movie_detail);
+                    Fragment selectedFragment = fragmentManager.findFragmentByTag(fragmentTag);
 
-                if (selectedFragment == null) {
-                    selectedFragment = MovieDetailFragment.newInstance(movie);
-                    fragmentManager.beginTransaction().addToBackStack(fragmentTag)
-                            .replace(R.id.container, selectedFragment, fragmentTag)
-                            .commit();
+                    if (selectedFragment == null) {
+                        selectedFragment = MovieDetailFragment.newInstance(movie);
+                        fragmentManager.beginTransaction().addToBackStack(fragmentTag)
+                                .replace(R.id.container, selectedFragment, fragmentTag)
+                                .commit();
+                    }
+                } else {
+                    Log.e("wi-fi", "not available");
+                    Toast.makeText(getActivity(), R.string.noWifi2, Toast.LENGTH_LONG).show();
                 }
             }
         });
