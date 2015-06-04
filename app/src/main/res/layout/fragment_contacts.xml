@@ -90,12 +90,40 @@
         android:layout_marginBottom="8dp"
         android:layout_below="@id/general_questions"/>
 
+    <TextView
+        android:id="@+id/tram_stop"
+        android:text="@string/tram_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/general_questions_mail" />
+    <TextView
+        android:id="@+id/tram_no"
+        android:text="@string/tram_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tram_stop" />
+    <TextView
+        android:id="@+id/bus_no"
+        android:text="@string/bus_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/tram_no" />
+
     <ImageView
         android:id="@+id/mapa"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/mapa"
-        android:layout_below="@id/general_questions_mail" />
+        android:src="@drawable/mapa2"
+        android:layout_below="@id/bus_no" />
     <TextView
         android:id="@+id/address1"
         android:text="@string/address1"

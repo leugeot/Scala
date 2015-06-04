@@ -8,7 +8,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
-    // \n zmenit na multiplatformove
     <string name="address1">Kino Scala</string>
     <string name="address2" translatable="false">Moravské náměstí</string>
     <string name="address3" translatable="false">602 00 Brno</string>
@@ -29,6 +28,10 @@
     <string name="notify">Remind me</string>
     <string name="noWifi1">"Please connect to internet for most recent movies."</string>
     <string name="noWifi2">"Please connect to internet for movie details."</string>
+    <string name="tram_stop">Tram stop Česká</string>
+    <string name="tram_no">Tram No. 3, 4, 5, 6, 9, 11</string>
+    <string name="bus_no">Bus No. 81, 82</string>
+
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
