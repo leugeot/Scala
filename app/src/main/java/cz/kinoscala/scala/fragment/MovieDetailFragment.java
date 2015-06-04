@@ -92,46 +92,6 @@ public class MovieDetailFragment extends Fragment {
         }
     }
 
-    private void downloadAndParseMovieDetail() {
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-
-                progressDialog = new ProgressDialog(getActivity(), R.style.ScalaProgressDialog);
-                progressDialog.setMessage(getString(R.string.downloading_movie));
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-            }
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                JSONLoader jsonLoader = new JSONLoader();
-
-                // JUST TEMPORARY FOR TEST
-                long movieID = movie.getId();
-
-                String url = "http://www.kinoscala.cz/1.0/export/description/" + movie.getId();
-                JSONObject jsonObject = jsonLoader.getJsonFromUrl(url);
-                movie = MovieParser.parseMovieDetail(jsonObject);
-                movie.setId(movieID);
-
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Void result) {
-                super.onPostExecute(result);
-                if (progressDialog.isShowing()) {
-                    progressDialog.dismiss();
-                }
-
-                updateMovieDetail();
-            }
-
-        }.execute();
-    }
-
     private void updateMovieDetail() {
         if (movie != null) {
             movieDetailName.setText(movie.getName());
@@ -230,7 +190,7 @@ public class MovieDetailFragment extends Fragment {
 
         addListenerOnButton();
 
-        downloadAndParseMovieDetail();
+        updateMovieDetail();
 
         return v;
     }

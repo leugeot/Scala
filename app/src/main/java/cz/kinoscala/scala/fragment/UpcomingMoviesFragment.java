@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -61,9 +63,9 @@ public class UpcomingMoviesFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
-        if (!wifi.isWifiEnabled()){
-            Log.e("wi-fi", "not available");
+//        WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        if (!isOnline()){
+            Log.e("internet", "not available");
             Toast.makeText(getActivity(), R.string.noWifi1, Toast.LENGTH_LONG).show();
         }
 
@@ -101,9 +103,10 @@ public class UpcomingMoviesFragment extends Fragment {
         movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
-                if (wifi.isWifiEnabled()) {
-                    Log.e("wi-fi", "available");
+//                WifiManager wifi = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+//                if (wifi.isWifiEnabled()) {
+                if (isOnline()) {
+                    Log.e("internet", "available");
                     Movie movie = (Movie) movieListView.getItemAtPosition(position);
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 
@@ -117,13 +120,20 @@ public class UpcomingMoviesFragment extends Fragment {
                                 .commit();
                     }
                 } else {
-                    Log.e("wi-fi", "not available");
+                    Log.e("internet", "not available");
                     Toast.makeText(getActivity(), R.string.noWifi2, Toast.LENGTH_LONG).show();
                 }
             }
         });
 
         return v;
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     private long minuteDifference(Date from, Date to) {
@@ -204,7 +214,26 @@ public class UpcomingMoviesFragment extends Fragment {
             JSONLoader jsonLoader = new JSONLoader();
 
             JSONObject jsonObject = jsonLoader.getJsonFromUrl("http://www.kinoscala.cz/1.0/export/showtimes");
-            return MovieParser.parseMoviesList(jsonObject);
+            List<Movie> movies = MovieParser.parseMoviesList(jsonObject);
+
+            DBManager db = new DBManager(getActivity().getApplicationContext());
+            try {
+                db.open();
+                for (Movie movie : movies) {
+                    long id = movie.getId();
+                    String url = "http://www.kinoscala.cz/1.0/export/description/" + movie.getId();
+                    JSONObject jsonMovieDetail = jsonLoader.getJsonFromUrl(url);
+                    movie = MovieParser.parseMovieDetail(jsonMovieDetail);
+                    movie.setId(id); // id isn't included when downloading detailed description
+
+                    db.insertMovie(movie);
+                }
+                db.close();
+            } catch (SQLException e) {
+                Log.e("upcomingmovies", "ERROR WHILE SAVING MOVIES TO DB");
+            }
+
+            return movies;
         }
 
         @Override
@@ -214,27 +243,16 @@ public class UpcomingMoviesFragment extends Fragment {
                 progressDialog.dismiss();
             }
 
-            DBManager db = new DBManager(getActivity().getApplicationContext());
-            try {
-                db.open();
-                for (Movie movie : movies) {
-                    db.insertMovie(movie);
-                }
-                db.close();
-                lastUpdateDate = new Date();
+            lastUpdateDate = new Date();
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat(
-                        "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            SimpleDateFormat dateFormat = new SimpleDateFormat(
+                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-                SharedPreferences settigs = getActivity().getApplicationContext().getSharedPreferences("app_settings", 0);
-                SharedPreferences.Editor editor = settigs.edit();
-                editor.putString("lastUpdateDate", dateFormat.format(lastUpdateDate));
+            SharedPreferences settigs = getActivity().getApplicationContext().getSharedPreferences("app_settings", 0);
+            SharedPreferences.Editor editor = settigs.edit();
+            editor.putString("lastUpdateDate", dateFormat.format(lastUpdateDate));
 
-                editor.apply();
-
-            } catch (SQLException e) {
-                Log.e("upcomingmovies", "ERROR WHILE SAVING MOVIES TO DB");
-            }
+            editor.apply();
 
             updateMovieListView(movies);
         }

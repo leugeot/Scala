@@ -95,22 +95,38 @@ public final class MovieParser {
             }
             movie.setDate(date);
             movie.setPrice(movieToParse.getInt("price"));
-            movie.setOriginalName(movieToParse.getString("original"));
-            movie.setYear(movieToParse.getInt("year"));
-            movie.setRuntime(movieToParse.getInt("runtime"));
-            movie.setCountries(movieToParse.getString("countries"));
-            movie.setLanguages(movieToParse.getString("languages"));
-            movie.setPlot(movieToParse.getString("plot"));
-            movie.setCurrency(movieToParse.getString("currency"));
-            movie.setCsfdRating(movieToParse.getInt("csfdRating"));
-            movie.setCsfdID(movieToParse.getString("csfdId"));
-            movie.setImdbRating(movieToParse.getDouble("imdbRating"));
-            movie.setImdbID(movieToParse.getString("imdbId"));
-            movie.setImageUrl(movieToParse.getString("image"));
-            movie.setYoutubeUrl(movieToParse.getString("youtube"));
-            movie.setWebsite(movieToParse.getString("website"));
-            movie.setUrl(movieToParse.getString("url"));
-            movie.setReservationUrl(movieToParse.getString("reservationUrl"));
+            if (movieToParse.has("original"))
+                movie.setOriginalName(movieToParse.getString("original"));
+            if (movieToParse.has("year"))
+                movie.setYear(movieToParse.getInt("year"));
+            if (movieToParse.has("runtime"))
+                movie.setRuntime(movieToParse.getInt("runtime"));
+            if (movieToParse.has("countries"))
+                movie.setCountries(movieToParse.getString("countries"));
+            if (movieToParse.has("languages"))
+                movie.setLanguages(movieToParse.getString("languages"));
+            if (movieToParse.has("plot"))
+                movie.setPlot(movieToParse.getString("plot"));
+            if (movieToParse.has("currency"))
+                movie.setCurrency(movieToParse.getString("currency"));
+            if (movieToParse.has("csfdRating"))
+                movie.setCsfdRating(movieToParse.getInt("csfdRating"));
+            if (movieToParse.has("csfdId"))
+                movie.setCsfdID(movieToParse.getString("csfdId"));
+            if (movieToParse.has("imdbRating"))
+                movie.setImdbRating(movieToParse.getDouble("imdbRating"));
+            if (movieToParse.has("imdbId"))
+                movie.setImdbID(movieToParse.getString("imdbId"));
+            if (movieToParse.has("image"))
+                movie.setImageUrl(movieToParse.getString("image"));
+            if (movieToParse.has("youtube"))
+                movie.setYoutubeUrl(movieToParse.getString("youtube"));
+            if (movieToParse.has("website"))
+                movie.setWebsite(movieToParse.getString("website"));
+            if (movieToParse.has("url"))
+                movie.setUrl(movieToParse.getString("url"));
+            if (movieToParse.has("reservationUrl"))
+                movie.setReservationUrl(movieToParse.getString("reservationUrl"));
 
 
         } catch (JSONException e) {
