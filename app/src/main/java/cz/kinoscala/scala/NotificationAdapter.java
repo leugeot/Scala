@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by petr on 29. 5. 2015.
@@ -51,7 +53,8 @@ public class NotificationAdapter extends ArrayAdapter<MovieNotification> {
         }
         MovieNotification notification = getItem(position);
         holder.name.setText(notification.getMovie().getName());
-        holder.date.setText(notification.getMovie().getDate().toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm:ss", Locale.getDefault());
+        holder.date.setText(dateFormat.format(notification.getMovie().getDate()));
 
         return convertView;
     }

@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by petr on 21.4.2015.
@@ -45,7 +47,8 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
         Movie movie = getItem(position);
         holder.name.setText(movie.getName());
-        holder.date.setText(movie.getDate().toString());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm:ss", Locale.getDefault());
+        holder.date.setText(dateFormat.format(movie.getDate()));
         holder.price.setText("Price: " + Integer.toString(movie.getPrice()) + " Kč");
 
         return convertView;
