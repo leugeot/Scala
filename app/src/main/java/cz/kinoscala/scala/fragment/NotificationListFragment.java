@@ -82,10 +82,12 @@ public class NotificationListFragment extends Fragment {
             Date actualDate = new Date();
 
             for (MovieNotification notification : notifications) {
-                if (notification.getMovie().getDate().compareTo(actualDate) > 0){
+                if (notification.getMovie().getDate().compareTo(actualDate) <= 0){
                     db.removeNotification(notification.getMovie().getId());
                 }
             }
+
+            notifications = db.getNotifications();
 
             db.close();
 

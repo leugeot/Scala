@@ -148,10 +148,10 @@ public class UpcomingMoviesFragment extends Fragment {
 
                     if (selectedFragment == null) {
                         selectedFragment = MovieDetailFragment.newInstance(movie);
-                        fragmentManager.beginTransaction().addToBackStack(fragmentTag)
-                                .replace(R.id.container, selectedFragment, fragmentTag)
-                                .commit();
                     }
+                    fragmentManager.beginTransaction().addToBackStack(fragmentTag)
+                            .replace(R.id.container, selectedFragment, fragmentTag)
+                            .commit();
                 } else {
                     Log.e("internet", "not available");
                     Toast.makeText(getActivity(), R.string.noWifi2, Toast.LENGTH_LONG).show();

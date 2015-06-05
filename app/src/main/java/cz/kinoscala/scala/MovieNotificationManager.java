@@ -27,26 +27,35 @@ public class MovieNotificationManager {
     }
 
     public void addNotification(Movie movie, int shortNotificationHour, int longNotificationHour) {
-        Calendar longNotification = Calendar.getInstance();
-        longNotification.setTime(movie.getDate());
-
-        longNotification.set(Calendar.HOUR_OF_DAY, longNotificationHour);
-        longNotification.set(Calendar.MINUTE, 0);
-        longNotification.set(Calendar.SECOND, 0);
-        longNotification.set(Calendar.AM_PM, Calendar.AM);
-
-        Calendar shortNotification = Calendar.getInstance();
-        shortNotification.setTime(movie.getDate());
-
-        shortNotification.add(Calendar.HOUR_OF_DAY, -shortNotificationHour);
-        shortNotification.set(Calendar.MINUTE, 0);
-        shortNotification.set(Calendar.SECOND, 0);
-
         Intent intent = new Intent(context, MovieNotificationReceiver.class);
         intent.putExtra("NAME", movie.getName());
         intent.putExtra("DESCRIPTION", movie.getDate().toString());
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+        Calendar actualCalendar = Calendar.getInstance();
+        actualCalendar.setTime(new Date());
+
+        Calendar longNotification = Calendar.getInstance();
+        longNotification.setTime(movie.getDate());
+        longNotification.set(Calendar.HOUR_OF_DAY, longNotificationHour);
+        longNotification.set(Calendar.MINUTE, 0);
+        longNotification.set(Calendar.SECOND, 0);
+        longNotification.set(Calendar.AM_PM, Calendar.AM);
+
+        if (longNotification.compareTo(actualCalendar) > 0) {
+            alarmManager.set(AlarmManager.RTC, longNotification.getTimeInMillis(), pendingIntent);
+        }
+
+        Calendar shortNotification = Calendar.getInstance();
+        shortNotification.setTime(movie.getDate());
+        shortNotification.add(Calendar.HOUR_OF_DAY, -shortNotificationHour);
+        shortNotification.set(Calendar.MINUTE, 0);
+        shortNotification.set(Calendar.SECOND, 0);
+
+        if (shortNotification.compareTo(actualCalendar) > 0) {
+            alarmManager.set(AlarmManager.RTC, shortNotification.getTimeInMillis(), pendingIntent);
+        }
 
         DBManager dbManager = new DBManager(context);
 
@@ -55,11 +64,6 @@ public class MovieNotificationManager {
             int id = dbManager.insertNotification(movie.getId());
             dbManager.close();
             intent.putExtra("NOTIFICATION_ID", id);
-
-            alarmManager.set(AlarmManager.RTC, longNotification.getTimeInMillis(), pendingIntent);
-            alarmManager.set(AlarmManager.RTC, shortNotification.getTimeInMillis(), pendingIntent);
-
-//            alarmManager.cancel(pendingIntent);
         } catch (SQLException e) {
             // Better show error somehow
             Log.e("MainActivity", e.toString());
