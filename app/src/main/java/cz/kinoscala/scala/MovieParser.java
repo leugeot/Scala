@@ -97,7 +97,7 @@ public final class MovieParser {
             movie.setPrice(movieToParse.getInt("price"));
             if (movieToParse.has("original"))
                 movie.setOriginalName(movieToParse.getString("original"));
-            if (movieToParse.has("year"))
+            if (movieToParse.has("year") && !movieToParse.getString("year").equals("null"))
                 movie.setYear(movieToParse.getInt("year"));
             if (movieToParse.has("runtime"))
                 movie.setRuntime(movieToParse.getInt("runtime"));
@@ -109,11 +109,11 @@ public final class MovieParser {
                 movie.setPlot(movieToParse.getString("plot"));
             if (movieToParse.has("currency"))
                 movie.setCurrency(movieToParse.getString("currency"));
-            if (movieToParse.has("csfdRating"))
+            if (movieToParse.has("csfdRating") && !movieToParse.getString("csfdRating").equals("null"))
                 movie.setCsfdRating(movieToParse.getInt("csfdRating"));
             if (movieToParse.has("csfdId"))
                 movie.setCsfdID(movieToParse.getString("csfdId"));
-            if (movieToParse.has("imdbRating"))
+            if (movieToParse.has("imdbRating") && !movieToParse.getString("imdbRating").equals("null"))
                 movie.setImdbRating(movieToParse.getDouble("imdbRating"));
             if (movieToParse.has("imdbId"))
                 movie.setImdbID(movieToParse.getString("imdbId"));

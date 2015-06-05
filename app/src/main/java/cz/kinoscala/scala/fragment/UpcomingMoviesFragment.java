@@ -72,6 +72,12 @@ public class UpcomingMoviesFragment extends Fragment {
 //        moviesLoadDays = savedInstanceState.getInt("moviesLoadDays");
         moviesLoadDays = 11;
 
+        setOnClickListener();
+
+        getMovies();
+    }
+
+    private void getMovies() {
         SharedPreferences settigs = getActivity().getApplicationContext().getSharedPreferences("app_settings", 0);
         String lastUpdateDateString = settigs.getString("lastUpdateDate", null);
 
@@ -85,7 +91,30 @@ public class UpcomingMoviesFragment extends Fragment {
                 lastUpdateDate = null;
             }
         }
+        Date currentDate = new Date();
+        if (lastUpdateDate == null || minuteDifference(lastUpdateDate, currentDate) > 15) {
+            if (isOnline()) {
+                new MoviesDownloader().execute();
+                Log.i("upcomingmovies", "empty db");
+            }
+            else {
+                Log.e("upcomingmovies", "not online-- not downloading");
+            }
+        } else {
+            DBManager db = new DBManager(getActivity().getApplicationContext());
+            try {
+                db.open();
 
+                List<Movie> movies = db.getMoviesSince(new Date());
+                db.close();
+
+                updateMovieListView(movies);
+                Log.i("upcomingmovies", "set from db");
+            } catch (SQLException e) {
+                Log.e("upcomingmovies", "ERROR WHILE LOADING MOVIES FROM DB");
+                // SHOW SOME KIND OF ERROR
+            }
+        }
     }
 
     @Override
@@ -100,6 +129,10 @@ public class UpcomingMoviesFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_upcoming_movies, container, false);
         movieListView = (ListView) v.findViewById(R.id.movie_list);
 
+        return v;
+    }
+
+    private void setOnClickListener() {
         movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -125,8 +158,6 @@ public class UpcomingMoviesFragment extends Fragment {
                 }
             }
         });
-
-        return v;
     }
 
     public boolean isOnline() {
@@ -145,25 +176,7 @@ public class UpcomingMoviesFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Date currentDate = new Date();
-        if (lastUpdateDate == null || minuteDifference(lastUpdateDate, currentDate) > 15) {
-            new MoviesDownloader().execute();
-            Log.i("upcomingmovies", "empty db");
-        } else {
-            DBManager db = new DBManager(getActivity().getApplicationContext());
-            try {
-                db.open();
 
-                List<Movie> movies = db.getMoviesSince(new Date());
-                db.close();
-
-                updateMovieListView(movies);
-                Log.i("upcomingmovies", "set from db");
-            } catch (SQLException e) {
-                Log.e("upcomingmovies", "ERROR WHILE LOADING MOVIES FROM DB");
-                // SHOW SOME KIND OF ERROR
-            }
-        }
     }
 
     @Override
