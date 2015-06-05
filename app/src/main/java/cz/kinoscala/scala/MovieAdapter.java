@@ -62,7 +62,7 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
         }
         Movie movie = getItem(position);
         holder.name.setText(movie.getName());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault());
         holder.date.setText(dateFormat.format(movie.getDate()));
         holder.price.setText(Integer.toString(movie.getPrice()) + " Kč");
 

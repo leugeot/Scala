@@ -53,7 +53,7 @@ public class NotificationAdapter extends ArrayAdapter<MovieNotification> {
         }
         MovieNotification notification = getItem(position);
         holder.name.setText(notification.getMovie().getName());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy hh:mm:ss", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm", Locale.getDefault());
         holder.date.setText(dateFormat.format(notification.getMovie().getDate()));
 
         return convertView;
