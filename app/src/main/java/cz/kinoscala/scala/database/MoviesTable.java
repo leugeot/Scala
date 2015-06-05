@@ -128,11 +128,6 @@ public class MoviesTable {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, 2);
-        date = c.getTime();
-
         String[] selectionArgs = {
                 dateFormat.format(date)
         };

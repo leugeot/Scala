@@ -19,6 +19,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import cz.kinoscala.scala.MovieNotification;
@@ -75,8 +77,16 @@ public class NotificationListFragment extends Fragment {
         DBManager db = new DBManager(getActivity().getApplicationContext());
         try {
             db.open();
-
             List<MovieNotification> notifications = db.getNotifications();
+
+            Date actualDate = new Date();
+
+            for (MovieNotification notification : notifications) {
+                if (notification.getMovie().getDate().compareTo(actualDate) > 0){
+                    db.removeNotification(notification.getMovie().getId());
+                }
+            }
+
             db.close();
 
             updateNotificationsListView(notifications);
