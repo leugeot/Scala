@@ -7,6 +7,9 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -119,18 +122,30 @@ public class MoviesTable {
         return database.insert(TABLE_NAME, null, contentValues);
     }
 
-    // CHECK -- PROBABLY DOESNT WORK -- COMPARING STRINGS? DAFUQ
     public static List<Movie> getMoviesSince(SQLiteDatabase database, Date date){
         String selection = DATE + " > ?";
 
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
 
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.add(Calendar.DATE, 2);
+        date = c.getTime();
+
         String[] selectionArgs = {
                 dateFormat.format(date)
         };
 
-        return getMovies(database, selection, selectionArgs);
+        List<Movie> movies = getMovies(database, selection, selectionArgs);
+        Collections.sort(movies, new Comparator<Movie>() {
+            @Override
+            public int compare(Movie m1, Movie m2) {
+                return m1.getDate().compareTo(m2.getDate());
+            }
+        });
+
+        return movies;
     }
 
     public static Movie getMovie(SQLiteDatabase database, int id) {
