@@ -53,6 +53,17 @@ public class MainActivity extends ActionBarActivity
     }
 
     @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        if (fragmentManager.getBackStackEntryCount() > 1 ) {
+            fragmentManager.popBackStack();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         onSectionAttached(position);
@@ -93,7 +104,7 @@ public class MainActivity extends ActionBarActivity
 
         if (selectedFragment != null) {
             // set selected fragment
-            fragmentManager.beginTransaction()
+            fragmentManager.beginTransaction().addToBackStack(tag)
                     .replace(R.id.container, selectedFragment, tag)
                     .commit();
         }
