@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import cz.kinoscala.scala.R;
 
@@ -23,6 +24,7 @@ public class ContactsFragment extends Fragment {
     Button ticketReservationPhoneButton;
     Button boxOfficePhoneButton;
     Button generalQuestionsMailButton;
+    ImageView map;
 
 
 
@@ -40,6 +42,7 @@ public class ContactsFragment extends Fragment {
         ticketReservationPhoneButton = (Button) v.findViewById(R.id.ticket_reservation_phone);
         boxOfficePhoneButton = (Button) v.findViewById(R.id.box_office_phone);
         generalQuestionsMailButton = (Button) v.findViewById(R.id.general_questions_mail);
+        map = (ImageView) v.findViewById(R.id.mapa);
         addListenerOnButton();
         return v;
     }
@@ -130,8 +133,15 @@ public class ContactsFragment extends Fragment {
                 public void onClick(View v){
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("plain/text");
-                    intent.putExtra(Intent.EXTRA_EMAIL, new String[] { "info@kinoscala.cz" });
+                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@kinoscala.cz"});
                     startActivity(Intent.createChooser(intent, ""));
+                }
+            });
+
+            map.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.google.com/maps/place/Kino+Scala/@49.197483,16.60721,18z/data=!4m2!3m1!1s0x0:0x4025a20cd84b8c08?hl=en-US")));
                 }
             });
         }
